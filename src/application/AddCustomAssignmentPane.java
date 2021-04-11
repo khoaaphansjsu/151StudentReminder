@@ -82,30 +82,30 @@ public class AddCustomAssignmentPane {
 			public void handle(ActionEvent event) {
 				String name = nameField.getText();
 				if (name.isEmpty()) {
-					StudentReminder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
+					Main.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
 							"Please enter your name");
 					return;
-				} else if (StudentReminder.database.hasAssignment(name)) {
-					StudentReminder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
+				} else if (Main.database.hasAssignment(name)) {
+					Main.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
 							"Assignment " + name + " already exists");
 					return;
 				}
 				if (startField.getValue() == null) {
-					StudentReminder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
+					Main.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
 							"Please enter your start date");
 					return;
 				}
 				if (dueField.getValue() == null) {
-					StudentReminder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
+					Main.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
 							"Please enter your due date");
 					return;
 				}
 
 				Assignment newAssignment = new Assignment(0, name, "some detail", startField.getValue().atStartOfDay(),
 						dueField.getValue().atStartOfDay(), false);
-				StudentReminder.database.insertAssignment(newAssignment);
+				Main.database.insertAssignment(newAssignment);
 
-				StudentReminder.showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(),
+				Main.showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(),
 						"Save Successful!", "Saved assignment " + nameField.getText() + " : " + newAssignment);
 
 			}

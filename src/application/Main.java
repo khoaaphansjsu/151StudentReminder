@@ -7,7 +7,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-public class StudentReminder extends Application {
+public class Main extends Application {
 
 	public static final Database database = new Database();
 
@@ -28,7 +28,7 @@ public class StudentReminder extends Application {
 
 	public static void main(String[] args) {
 
-		StudentReminder.database.getAllAssignments().forEach((k, v) -> System.out.println(v.toString()));
+		Main.database.getAllAssignments().forEach((k, v) -> System.out.println(v.toString()));
 
 		launch(args);
 	}
