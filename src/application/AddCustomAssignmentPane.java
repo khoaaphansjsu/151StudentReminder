@@ -17,11 +17,13 @@ import javafx.stage.Stage;
 
 public class AddCustomAssignmentPane {
 
-	public AddCustomAssignmentPane(Stage stage) {
+	public AddCustomAssignmentPane(StudentReminder studentReminder) {
 		super();
-		this.stage = stage;
+		this.studentReminder = studentReminder;
+		this.stage = studentReminder.getStage();
 	}
 
+	private final StudentReminder studentReminder;
 	private final Stage stage;
 	private GridPane gridPane;
 
@@ -105,8 +107,8 @@ public class AddCustomAssignmentPane {
 						dueField.getValue().atStartOfDay(), false);
 				Main.database.insertAssignment(newAssignment);
 
-				Main.showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(),
-						"Save Successful!", "Saved assignment " + nameField.getText() + " : " + newAssignment);
+				Main.showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(), "Save Successful!",
+						"Saved assignment " + nameField.getText() + " : " + newAssignment);
 
 			}
 		});
@@ -114,7 +116,7 @@ public class AddCustomAssignmentPane {
 		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				stage.close();
+				stage.setScene(studentReminder.getHomepage());
 			}
 		});
 	}
