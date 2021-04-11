@@ -80,9 +80,14 @@ public class AddCustomAssignmentPane {
 		saveButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				if (nameField.getText().isEmpty()) {
+				String name = nameField.getText();
+				if (name.isEmpty()) {
 					StudentReminder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
 							"Please enter your name");
+					return;
+				} else if (StudentReminder.database.hasAssignment(name)) {
+					StudentReminder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
+							"Assignment " + name + " already exists");
 					return;
 				}
 				if (startField.getValue() == null) {
@@ -96,13 +101,12 @@ public class AddCustomAssignmentPane {
 					return;
 				}
 
-				StudentReminder.numAssignment++;
-				Assignment newAssignment = new Assignment(StudentReminder.numAssignment, nameField.getText(),
-						"some detail", startField.getValue().atStartOfDay(), dueField.getValue().atStartOfDay(), false);
-				StudentReminder.assignementDatabase.put(StudentReminder.numAssignment, newAssignment);
+				Assignment newAssignment = new Assignment(0, name, "some detail", startField.getValue().atStartOfDay(),
+						dueField.getValue().atStartOfDay(), false);
+				StudentReminder.database.insertAssignment(newAssignment);
 
 				StudentReminder.showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(),
-						"Save Successful!", "Welcome " + nameField.getText() + "assignment:" + newAssignment);
+						"Save Successful!", "Saved assignment " + nameField.getText() + " : " + newAssignment);
 
 			}
 		});
@@ -114,4 +118,5 @@ public class AddCustomAssignmentPane {
 			}
 		});
 	}
+
 }

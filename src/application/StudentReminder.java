@@ -1,8 +1,5 @@
 package application;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -12,11 +9,11 @@ import javafx.stage.Window;
 
 public class StudentReminder extends Application {
 
-	public final static Map<Integer, Assignment> assignementDatabase = new HashMap<>();
-	public static int numAssignment = 0;
+	public static final Database database = new Database();
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+
 		primaryStage.setTitle("Student Reminder");
 
 		// Create a scene with add custom assignment form grid pane as the root node
@@ -30,6 +27,9 @@ public class StudentReminder extends Application {
 	}
 
 	public static void main(String[] args) {
+
+		StudentReminder.database.getAllAssignments().forEach((k, v) -> System.out.println(v.toString()));
+
 		launch(args);
 	}
 
