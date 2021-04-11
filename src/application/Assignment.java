@@ -1,9 +1,15 @@
 package application;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 //must add notification
-public class Assignment {
+public class Assignment implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private int number;
 	private String name;
@@ -67,5 +73,13 @@ public class Assignment {
 
 	public boolean getCanvasCheck() {
 		return canvasCheck;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
+	public void setCanvasCheck(boolean canvasCheck) {
+		this.canvasCheck = canvasCheck;
 	}
 }

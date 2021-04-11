@@ -80,29 +80,33 @@ public class AddCustomAssignmentPane {
 		saveButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				if (nameField.getText().isEmpty()) {
-					StudentReminder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
+				String name = nameField.getText();
+				if (name.isEmpty()) {
+					Main.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
 							"Please enter your name");
+					return;
+				} else if (Main.database.hasAssignment(name)) {
+					Main.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
+							"Assignment " + name + " already exists");
 					return;
 				}
 				if (startField.getValue() == null) {
-					StudentReminder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
+					Main.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
 							"Please enter your start date");
 					return;
 				}
 				if (dueField.getValue() == null) {
-					StudentReminder.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
+					Main.showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
 							"Please enter your due date");
 					return;
 				}
 
-				StudentReminder.numAssignment++;
-				Assignment newAssignment = new Assignment(StudentReminder.numAssignment, nameField.getText(),
-						"some detail", startField.getValue().atStartOfDay(), dueField.getValue().atStartOfDay(), false);
-				StudentReminder.assignementDatabase.put(StudentReminder.numAssignment, newAssignment);
+				Assignment newAssignment = new Assignment(0, name, "some detail", startField.getValue().atStartOfDay(),
+						dueField.getValue().atStartOfDay(), false);
+				Main.database.insertAssignment(newAssignment);
 
-				StudentReminder.showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(),
-						"Save Successful!", "Welcome " + nameField.getText() + "assignment:" + newAssignment);
+				Main.showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(),
+						"Save Successful!", "Saved assignment " + nameField.getText() + " : " + newAssignment);
 
 			}
 		});
@@ -114,4 +118,5 @@ public class AddCustomAssignmentPane {
 			}
 		});
 	}
+
 }
