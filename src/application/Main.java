@@ -1,9 +1,7 @@
 package application;
 
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -16,12 +14,10 @@ public class Main extends Application {
 
 		primaryStage.setTitle("Student Reminder");
 
-		// Create a scene with add custom assignment form grid pane as the root node
-		GridPane addCustomAssignmentPane = new AddCustomAssignmentPane(primaryStage).createPane();
+		StudentReminder studentReminder = new StudentReminder(primaryStage);
 
-		Scene scene = new Scene(addCustomAssignmentPane, 800, 500);
 		// Set the scene in primary stage
-		primaryStage.setScene(scene);
+		primaryStage.setScene(studentReminder.getSignIn());
 
 		primaryStage.show();
 	}
