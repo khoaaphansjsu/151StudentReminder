@@ -1,40 +1,46 @@
 package application;
-
+	
 import javafx.application.Application;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import javafx.stage.Window;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
+//When this code is integrated into the main branch, I'll just
+//		a) change from primaryStage to whatever Stage we're using
+//		b) adjust the positions of the button
+//		c) In Notification.java, I'll change "Hello World" to our assignments
 public class Main extends Application {
-
-	public static final AssignmentDB assignmentDB = new AssignmentDB();
-
 	@Override
-	public void start(Stage primaryStage) throws Exception {
-
-		primaryStage.setTitle("Student Reminder");
-
-		StudentReminder studentReminder = new StudentReminder(primaryStage);
-
-		// Set the scene in primary stage
-		primaryStage.setScene(studentReminder.getSignIn());
-
-		primaryStage.show();
+	public void start(Stage primaryStage) {
+		try {
+			//Create a Notification object
+			Notification ntf = new Notification();
+			
+			//Add a button to show Notify called showNotify
+			Button showNotify = new Button("SHOW UPCOMING WORK");
+			
+			//VBox containing the showNotify button
+			VBox vb = new VBox();
+			vb.getChildren().addAll(showNotify);
+			
+			//showNotify button calls displayInAppNotify in Notification.java
+			showNotify.setOnAction(event -> ntf.displayInAppNotify("Hello"));
+			
+			//Create a scene for the VBox
+			Scene scene = new Scene(vb);
+			
+			//Set scene for the stage above
+			primaryStage.setScene(scene);
+			primaryStage.show();	
+	    	
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
-
+	
 	public static void main(String[] args) {
-
-		Main.assignmentDB.getAllAssignments().forEach((k, v) -> System.out.println(v.toString()));
-
 		launch(args);
-	}
-
-	public static void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
-		Alert alert = new Alert(alertType);
-		alert.setTitle(title);
-		alert.setHeaderText(null);
-		alert.setContentText(message);
-		alert.initOwner(owner);
-		alert.show();
 	}
 }
