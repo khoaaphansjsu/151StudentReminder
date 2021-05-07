@@ -20,19 +20,16 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-
 public class StudentReminder {
 
 	private static final int SCENE_SIZE_Y = 500;
 	private static final int SCENE_SIZE_X = 800;
-
 	private final Stage stage;
 
-	Scene signIn, signUp, homepage, addCustomAssignment, editAssignment;
+	Scene signIn, signUp, homepage, addCustomAssignment;
 	String checkUsername, checkPassword;
 	String user = "";
 	String pw = "";
-	Assignment assignment;
 
 	public StudentReminder(Stage primaryStage) {
 		super();
@@ -42,22 +39,10 @@ public class StudentReminder {
 		createSignUp();
 		createWelcome();
 		createAddCustomAssignment();
-		if(!Main.assignmentDB.dbIsEmpty()) {
-		createEditAssignment(assignment); //new edit assignment variable to have parallel structure with already implemented features.
-		}
-	
 	}
 
 	private void createAddCustomAssignment() {
 		addCustomAssignment = new Scene(new AddCustomAssignmentPane(this).createPane(), SCENE_SIZE_X, SCENE_SIZE_Y);
-	}
-	
-	/*
-	 * creating edit Assignment Pane similar to add Custom Assignment Pane above
-	 * -josh
-	 */
-	private void createEditAssignment(Assignment currentAssignment) {
-		editAssignment = new Scene(new EditAssignmentPane(this, currentAssignment).createPane(), SCENE_SIZE_X, SCENE_SIZE_Y);
 	}
 
 	public Scene getSignIn() {
@@ -74,10 +59,6 @@ public class StudentReminder {
 
 	public Stage getStage() {
 		return stage;
-	}
-	
-	public Scene geteditAssignment() {
-		return editAssignment;
 	}
 
 	private void createSignIn() {
@@ -225,9 +206,6 @@ public class StudentReminder {
 		// Scene 3: the homepage
 		Label label3 = new Label("Homepage");
 		VBox layout3 = new VBox(20);
-		
-		
-		
 		Button btnCustom = new Button("Add Custom Assignment");
 		btnCustom.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -235,67 +213,14 @@ public class StudentReminder {
 				stage.setScene(addCustomAssignment);
 			}
 		});
-		
-		
-		/*
-		 * NOTE VERY IMPORTANT: IF NOTHING IN YOUR DB, COMMENT LINE 244 OUT
-		 * AND ADD SOMETHING TO THE DB, THEN RUN THE CODE WITH THAT ASSIGNMENT NAME TO EDIT
-		 * IF YOU ARE GETTING AN ERROR HERE, MAKE THE PARAMETER OF THIS FUNCTION AN ASSIGNMENT YOU HAVE SAVED
-		 * THEN IT WILL WORK.
-		 */
-		assignment = Main.assignmentDB.getAssignment("math");
-		
-		
-		/*
-		 * Edit button goes here for now,
-		 * but consider having one on each listed asssignment.
-		 * adding an isempty checker so that the program wont crash if you have nothing in db.
-		 * -josh
-		 */
-		
-		if(!Main.assignmentDB.dbIsEmpty()) {
-		Label label4 = new Label(assignment.getName());
-		Button btnEdit = new Button("Edit Assignment");
-		btnEdit.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {	
-				stage.setScene(editAssignment);
-			}
-		});
-		
-		layout3.getChildren().addAll(label4, btnEdit);
-		}
-		
-		
-		/*
-		 * 
-		 * We will add a delete button here too for testing,
-		 * my plan is to have an edit/delete button next to each assignment.
-		 * -josh
-		 */
-		
-		if(!Main.assignmentDB.dbIsEmpty()) {
-			Label label5 = new Label("Delete Button");
-			
-			
-			Button btnDelete = new Button("Delete Assignment");
-			btnDelete.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {	
-					Main.assignmentDB.deleteAssignment(assignment);
-					stage.setScene(homepage);
-				}
-			});
-			
-			layout3.getChildren().addAll(label5, btnDelete);
-		}
-		
-		
-		
-		
 		layout3.getChildren().addAll(label3, btnCustom);
 
+		//Create summary Button on homepage
+		Button showSummary = new Button("DUE IN 7 DAYS");
+		layout3.getChildren().addAll(showSummary);
+		Summary theSum = new Summary();
+		showSummary.setOnAction(event -> theSum.createSummary());
+		
 		homepage = new Scene(layout3, SCENE_SIZE_X, SCENE_SIZE_Y);
-
 	}
 }
