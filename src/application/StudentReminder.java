@@ -236,16 +236,39 @@ public class StudentReminder {
 			}
 		});
 		
-		
-		/*
-		 * NOTE VERY IMPORTANT: IF NOTHING IN YOUR DB, COMMENT LINE 244 OUT
-		 * AND ADD SOMETHING TO THE DB, THEN RUN THE CODE WITH THAT ASSIGNMENT NAME TO EDIT
-		 * IF YOU ARE GETTING AN ERROR HERE, MAKE THE PARAMETER OF THIS FUNCTION AN ASSIGNMENT YOU HAVE SAVED
-		 * THEN IT WILL WORK.
-		 */
-		assignment = Main.assignmentDB.getAssignment("math");
+	
 		
 		
+		if(!Main.assignmentDB.dbIsEmpty()) {
+		Main.assignmentDB.getAllAssignments().forEach((k,v) -> {
+			
+			assignment = Main.assignmentDB.getAssignment(k); 
+			
+
+			Label label4 = new Label(assignment.getName());
+			Button btnEdit = new Button("Edit Assignment");
+			btnEdit.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {	
+					stage.setScene(editAssignment);
+				}
+			});
+			
+			
+			
+			Button btnDelete = new Button("Delete Assignment");
+			btnDelete.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {	
+					Main.assignmentDB.deleteAssignment(assignment);
+					stage.setScene(homepage);
+				}
+			});
+				
+			layout3.getChildren().addAll(label4, btnEdit, btnDelete);
+			
+			});
+		}
 		/*
 		 * Edit button goes here for now,
 		 * but consider having one on each listed asssignment.
@@ -253,7 +276,7 @@ public class StudentReminder {
 		 * -josh
 		 */
 		
-		if(!Main.assignmentDB.dbIsEmpty()) {
+		/*if(!Main.assignmentDB.dbIsEmpty()) {
 		Label label4 = new Label(assignment.getName());
 		Button btnEdit = new Button("Edit Assignment");
 		btnEdit.setOnAction(new EventHandler<ActionEvent>() {
@@ -264,7 +287,7 @@ public class StudentReminder {
 		});
 		
 		layout3.getChildren().addAll(label4, btnEdit);
-		}
+		}*/
 		
 		
 		/*
@@ -274,7 +297,7 @@ public class StudentReminder {
 		 * -josh
 		 */
 		
-		if(!Main.assignmentDB.dbIsEmpty()) {
+		/*if(!Main.assignmentDB.dbIsEmpty()) {
 			Label label5 = new Label("Delete Button");
 			
 			
@@ -288,8 +311,7 @@ public class StudentReminder {
 			});
 			
 			layout3.getChildren().addAll(label5, btnDelete);
-		}
-		
+		}*/
 		
 		
 		
